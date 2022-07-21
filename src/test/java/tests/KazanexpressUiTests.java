@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class KazanexpressUiTests {
 
@@ -25,7 +27,6 @@ public class KazanexpressUiTests {
         step("Проверка соответствия заголовка 'KazanExpress - интернет-магазин с бесплатной доставкой за 1 день'", () -> {
             String expectedTitle = "KazanExpress - интернет-магазин с бесплатной доставкой за 1 день";
             String actualTitle = title();
-
             assertThat(actualTitle).isEqualTo(expectedTitle);
         });
     }
@@ -50,6 +51,8 @@ public class KazanexpressUiTests {
     void chooseCityTest(String data, String result) {
         open("https://kazanexpress.ru/");
         $(".bottom-header-wrapper").$(byText(data)).click();
+        $(".bottom-header-wrapper").shouldHave(Condition.text(result));
+
     }
 
     //TestDataConfig config = ConfigFactory.create(TestDataConfig.class);
@@ -73,10 +76,12 @@ public class KazanexpressUiTests {
         });
 
         step("Нажать на кнопку 'Войти'", () ->
-                $("[data-test-id='button__sign-in']").submit());
+                $("[data-test-id=button__sign-in]").submit());
 
         step("Проверка, успешной авторизации по имени юзера", () -> {
-            $("[data-test-id=block__cart-items]").shouldHave(text(userName));
+           // $("[data-test-id=block__cart-items]").shouldHave(text(userName));
+            $(byText(userName)).shouldBe(visible);
+
         });
     }
 
