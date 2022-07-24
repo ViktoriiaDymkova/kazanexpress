@@ -1,6 +1,5 @@
-package tests;
+package tests.ui;
 
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class KazanexpressUiTests {
 
@@ -39,9 +37,9 @@ public class KazanexpressUiTests {
         $("[data-test-id=input__search]").click();
         $("[data-test-id=input__search]").setValue(testData);
         $("[data-test-id=button__search]").pressEnter();
-        $$("[class=desktop-wrapper]").find(text(testData)).shouldBe(visible);
+        $$("[id=caregory-content-wrapper]").find(text(testData)).shouldBe(visible);
     }
-
+//тут не работает проверка
     @Tag("ui")
     @CsvSource(value = {
             "Электроника, Смартфоны и телефоны",
@@ -51,8 +49,7 @@ public class KazanexpressUiTests {
     void chooseCityTest(String data, String result) {
         open("https://kazanexpress.ru/");
         $(".bottom-header-wrapper").$(byText(data)).click();
-        $(".bottom-header-wrapper").shouldHave(Condition.text(result));
-
+        $$("[id=caregory-content-wrapper]").find(text(result)).shouldBe(visible);
     }
 
     //TestDataConfig config = ConfigFactory.create(TestDataConfig.class);
@@ -81,7 +78,6 @@ public class KazanexpressUiTests {
         step("Проверка, успешной авторизации по имени юзера", () -> {
            // $("[data-test-id=block__cart-items]").shouldHave(text(userName));
             $(byText(userName)).shouldBe(visible);
-
         });
     }
 
@@ -96,7 +92,6 @@ public class KazanexpressUiTests {
         $("[data-test-id=button__add-to-cart]").pressEnter();
     }
 
-    // показать Тане тест , вместо порошка падает телефон. понять почему?
     @Tag("ui")
     @Test
     @DisplayName("Проверка возможности увеличения колличества товаров в корзине")
@@ -105,10 +100,10 @@ public class KazanexpressUiTests {
         $("[data-test-id=input__search]").click();
         $("[data-test-id=input__search]").setValue("стиральный порошок tide 3 кг");
         $("[data-test-id=button__search]").pressEnter();
-        $("[data-test-id=button__add-to-cart]").pressEnter();
+        $("[title='Добавить Стиральный порошок Tide, 3 кг в корзину']").pressEnter();
         $("[data-test-id=button__cart]").click();
         $("[data-test-id=button__increase-quantity]").click();
-        $("[data-test-id='button__cart']").shouldHave(text("2"));
+        $("[data-test-id=input__item-amount]").shouldHave(value("2"));
     }
 
 
@@ -121,6 +116,5 @@ public class KazanexpressUiTests {
         $("[data-test-id=input__search]").setValue("книга убить пересмешника");
         $("[data-test-id=button__search]").pressEnter();
         $(byText("Возможно, в названии товара ошибка или у нас пока нет такого товара")).shouldBe(visible);
-
     }
 }
