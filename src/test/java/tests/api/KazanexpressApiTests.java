@@ -61,7 +61,8 @@ public class KazanexpressApiTests {
                 .post("/oauth/token")
                 .then()
                 .spec(response400)
-                .body("token_type", is("bearer"));
+                .body("token_type", is(null));
+        //                .body("token_type", is("bearer")); - это ответ в положительной проверке
     }
 
     @Tag("api")
@@ -110,7 +111,7 @@ public class KazanexpressApiTests {
         pagination.setLimit(0);
         pagination.setOffset(0);
 
-      ResponceSearch responceSearch = given()
+        ResponceSearch responceSearch = given()
                 .contentType(ContentType.JSON)
                 .body(requesSearch)
                 .when().log().all()

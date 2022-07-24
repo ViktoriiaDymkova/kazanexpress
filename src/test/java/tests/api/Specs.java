@@ -1,6 +1,8 @@
 package tests.api;
 
 import io.restassured.builder.ResponseSpecBuilder;
+
+import static helpers.AllureRestAssuredFilter.withCustomTemplates;
 import static io.restassured.http.ContentType.JSON;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
