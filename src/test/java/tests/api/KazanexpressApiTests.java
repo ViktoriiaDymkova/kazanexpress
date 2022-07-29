@@ -20,8 +20,7 @@ import static tests.api.Specs.*;
 public class KazanexpressApiTests {
 
     String authorization = "Basic a2F6YW5leHByZXNzLWN1c3RvbWVyOmN1c3RvbWVyU2VjcmV0S2V5";
-
-
+    
     @Tag("api")
     @Test
     @DisplayName("Позитивная проверка авторизации и получения токена")
@@ -41,6 +40,7 @@ public class KazanexpressApiTests {
                 .body("refresh_token", notNullValue())
                 .body("access_token", notNullValue());
     }
+
     @Tag("api")
     @Test
     @DisplayName("Негативная проверка авторизации и получения токена")
@@ -67,17 +67,17 @@ public class KazanexpressApiTests {
 
     @Tag("api")
     @Test
-    @DisplayName("Негативная проверка авторизации при не верном логине из генератора")
+    @DisplayName("Негативная проверка авторизации при пароле из генератора")
     public void authBadUsernameTest() {
 
         Faker faker = new Faker();
-        String fakeusername = faker.numerify("##########");
+        String fakerPassword = faker.numerify("########");
 
         given()
                 .spec(request)
                 .formParam("grant_type", "password")
-                .formParam("username", fakeusername)
-                .formParam("password", "UZTgf2mW")
+                .formParam("username", "9312398004")
+                .formParam("password", fakerPassword)
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("authorization", authorization)
                 .when()
@@ -85,7 +85,6 @@ public class KazanexpressApiTests {
                 .then()
                 .spec(response400)
                 .body("payload", nullValue());
-        //                .body("token_type", is("bearer")); - это ответ в положительной проверке
     }
 
     @Tag("api")
