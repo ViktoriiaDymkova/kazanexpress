@@ -1,5 +1,7 @@
 package tests.ui;
 
+import helpers.AuthConfig;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -68,6 +70,9 @@ public class KazanexpressUiTests {
     @Tag("ui")
     @Test
     @DisplayName("Проверка авторизации пользователя")
+
+    AuthConfig config = ConfigFactory.create(AuthConfig.class, System.getProperties());
+
     void authTest() {
         step("Открыть главную страницу 'https://kazanexpress.ru/'", () ->
                 open("https://kazanexpress.ru/"));
@@ -76,8 +81,8 @@ public class KazanexpressUiTests {
         step("Заполнить форму авторизации", () -> {
 //            $("[data-test-id='input__login']").val(config.userLogin());   потом с конфигом будет так
 //            $("[data-test-id='input__password']").val(config.userPassword());
-            $("[data-test-id='input__login']").val("89312398004");
-            $("[data-test-id='input__password']").val("UZTgf2mW");
+            $("[data-test-id='input__login']").val(config.login());
+            $("[data-test-id='input__password']").val(config.password());
         });
         step("Нажать на кнопку 'Войти'", () ->
                 $("[data-test-id=button__sign-in]").submit());
